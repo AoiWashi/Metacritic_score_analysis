@@ -32,9 +32,9 @@ This project is my attempt to answer these questions using real data. By combini
 
 | # | Data Type   | Source | Description |
 |---|-------------|--------|-------------|
-| 1 | Metacritic  | https://www.kaggle.com/datasets/beridzeg45/metacritic-pc-games-reviews/data | Core game data: title, release date, developer, platforms, metascore, user rating |
-| 2 | OpenCritic  | https://www.kaggle.com/code/nazilkabaz/web-scraping-from-open-critic/output | Used for comparison |
-| 3 | IGN         | https://www.kaggle.com/code/advancedforestry/ign-score-analytics/input | To check biggest reviewer site |
+| 1 | Metacritic  | [Metacritic Dataset](https://www.kaggle.com/datasets/beridzeg45/metacritic-pc-games-reviews/data) | Core game data: title, release date, developer, platforms, metascore, user rating |
+| 2 | OpenCritic  | [OpenCritic Dataset](https://www.kaggle.com/code/nazilkabaz/web-scraping-from-open-critic/output) | Used for comparison |
+| 3 | IGN         | [IGN Dataset](https://www.kaggle.com/code/advancedforestry/ign-score-analytics/input) | To check biggest reviewer site |
 
 ---
 
