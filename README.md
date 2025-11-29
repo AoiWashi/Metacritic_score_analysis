@@ -1,55 +1,90 @@
-# Metacritic Score Analysis
+# Video Game Review Score Analysis  
+### Comparing Metacritic • OpenCritic • IGN
 
-This project collects and analyzes video game ratings from **Metacritic** to test several hypotheses for my DSA 210 term project.  
-The goal is to explore how critic (expert) scores and user (player) scores differ, and how these patterns change over time.
+This project collects and analyzes video game review scores from **Metacritic**, **OpenCritic**, and **IGN** to explore how review patterns differ across platforms and over time.  
+By combining multiple datasets, the project provides a broader and more accurate understanding of how games are rated by critics and players.
+
+---
+
+## Motivation
+
+I have always enjoyed playing video games, and I regularly check game reviews before deciding what to play next.  
+Over time, I noticed that different review platforms—such as **Metacritic**, **OpenCritic**, and **IGN**—often give different scores for the same game. This made me curious:
+
+- Why do these differences happen?  
+- Are some platforms consistently harsher or more generous?  
+- Do critic and user reviews follow the same patterns?
+
+Since I enjoy both gaming and data analysis, this project lets me combine these interests.  
+Using multiple datasets allows me to compare rating systems more accurately and understand:
+
+- How critic and user scores differ  
+- How review trends change over time  
+- Which platforms align or disagree the most  
+
+This project is both personally interesting and academically valuable.
 
 ---
 
 ## Project Goals
-- Collect structured game rating data from Metacritic  
-- Clean and organize the dataset  
-- Analyze score trends by year  
-- Compare critic vs. user scoring behavior  
-- Visualize results using charts and graphs  
+
+- Collect and combine game rating data from **Metacritic**, **OpenCritic**, and **IGN**
+- Clean and standardize datasets from multiple sources
+- Compare critic vs. user scoring behavior across platforms
+- Analyze score trends over time
+- Produce visualizations for clear comparison  
+- Test hypotheses related to review behavior
 
 ---
 
-## Data Collection Method
+## Data Sources
 
-I will gather data from Metacritic using a Python web-scraping script.
+### **Metacritic**
+Includes:
+- Critic (expert) score
+- User (player) score
+- Release date
+- Developer / Publisher
 
-The dataset will include:
+### **OpenCritic**
+Includes:
+- Top Critic score
+- Player rating
+- Platforms listed
 
-- **Game title**  
-- **Release date**  
-- **Developer**  
-- **Publisher**  
-- **Critic (expert) score**  
-- **User (player) score**  
-- **Number of critic reviews** (if available)  
-- **Number of user ratings** (if available)
-
-This data will be saved into a CSV file for analysis.
+### **IGN**
+Includes:
+- IGN numeric score
+- Reviewer
+- Game genre & release information
 
 ---
 
 ## Hypotheses
 
-### **Hypothesis 1**  
-**Experts give higher scores in recent years than before.**  
-I will test this by comparing average critic scores across release years.
+### **Hypothesis 1:**  
+**Experts give higher scores in recent years than in the past.**
 
-### **Hypothesis 2**  
-**Players give lower scores than experts.**  
-I will check this by comparing the average user score to the critic score for each game.
+### **Hypothesis 2:**  
+**Players give lower scores than expert reviewers on average.**
+
+### **Hypothesis 4:**  
+**The variance of user scores is higher than critic scores.**  
+Users tend to be more extreme in their ratings.
 
 ---
 
-## Tools & Libraries
-The project will use:
+## Tools & Technologies
 
-- Python  
-- BeautifulSoup4  
-- Requests  
-- Pandas  
-- Matplotlib / Seaborn (for graphs)  
+- **Python**  
+- **Requests + BeautifulSoup4** (scraping)
+- **Pandas** (cleaning + merging)
+- **NumPy** (statistics)
+- **Matplotlib / Seaborn** (visualizations)
+- **Jupyter Notebook** (analysis)
+
+---
+
+## Data Collection Scripts
+
+All scraping code is stored in:  
