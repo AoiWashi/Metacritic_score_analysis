@@ -30,11 +30,11 @@ This project is my attempt to answer these questions using real data. By combini
 
 ## Data Sources
 
-| # | Data Type        | Source | Description |
-|---|------------------|---------|-------------|---------------|
-| 1 | Metacritic   | https://www.kaggle.com/datasets/beridzeg45/metacritic-pc-games-reviews/data | Core game data: title, release date, developer, platforms, metascore, user rating |
-| 2 | OpenCritic   | https://www.kaggle.com/code/nazilkabaz/web-scraping-from-open-critic/output | Used for comparison |
-| 3 | IGN   | https://www.kaggle.com/code/advancedforestry/ign-score-analytics/input | To check biggest reviwer site |
+| # | Data Type   | Source | Description |
+|---|-------------|--------|-------------|
+| 1 | Metacritic  | https://www.kaggle.com/datasets/beridzeg45/metacritic-pc-games-reviews/data | Core game data: title, release date, developer, platforms, metascore, user rating |
+| 2 | OpenCritic  | https://www.kaggle.com/code/nazilkabaz/web-scraping-from-open-critic/output | Used for comparison |
+| 3 | IGN         | https://www.kaggle.com/code/advancedforestry/ign-score-analytics/input | To check biggest reviewer site |
 
 ---
 
