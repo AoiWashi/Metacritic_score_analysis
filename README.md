@@ -8,21 +8,12 @@ By combining multiple datasets, the project provides a broader and more accurate
 
 ## Motivation
 
-I have always enjoyed playing video games, and I regularly check game reviews before deciding what to play next.  
-Over time, I noticed that different review platforms—such as **Metacritic**, **OpenCritic**, and **IGN**—often give different scores for the same game. This made me curious:
+As someone who follows video game reviews closely, I've always noticed that the same game can receive very different scores depending on where you look. Sometimes critics love a game while players dislike it — or the opposite. This made me curious:
 
-- Why do these differences happen?  
-- Are some platforms consistently harsher or more generous?  
-- Do critic and user reviews follow the same patterns?
+- Do critics and players judge games differently?
+- How have review patterns changed over the years?
 
-Since I enjoy both gaming and data analysis, this project lets me combine these interests.  
-Using multiple datasets allows me to compare rating systems more accurately and understand:
-
-- How critic and user scores differ  
-- How review trends change over time  
-- Which platforms align or disagree the most  
-
-This project is both personally interesting and academically valuable.
+This project is my attempt to answer these questions using real data. By combining multiple review platforms, I hope to better understand how games are rated and what these differences reveal about both the gaming community and the industry as a whole.
 
 ---
 
@@ -39,24 +30,11 @@ This project is both personally interesting and academically valuable.
 
 ## Data Sources
 
-### **Metacritic**
-Includes:
-- Critic (expert) score
-- User (player) score
-- Release date
-- Developer / Publisher
-
-### **OpenCritic**
-Includes:
-- Top Critic score
-- Player rating
-- Platforms listed
-
-### **IGN**
-Includes:
-- IGN numeric score
-- Reviewer
-- Game genre & release information
+| # | Data Type        | Source | Description |
+|---|------------------|---------|-------------|---------------|
+| 1 | Metacritic   | https://www.kaggle.com/datasets/beridzeg45/metacritic-pc-games-reviews/data | Core game data: title, release date, developer, platforms, metascore, user rating |
+| 2 | OpenCritic   | https://www.kaggle.com/code/nazilkabaz/web-scraping-from-open-critic/output | Used for comparison |
+| 3 | IGN   | https://www.kaggle.com/code/advancedforestry/ign-score-analytics/input | To check biggest reviwer site |
 
 ---
 
@@ -67,6 +45,9 @@ Includes:
 
 ### **Hypothesis 2:**  
 **Players give lower scores than expert reviewers on average.**
+
+### **Hypothesis 2:**  
+**IGN give higher score in recent years than in the past.**
 
 ### **Hypothesis 4:**  
 **The variance of user scores is higher than critic scores.**  
@@ -82,9 +63,3 @@ Users tend to be more extreme in their ratings.
 - **NumPy** (statistics)
 - **Matplotlib / Seaborn** (visualizations)
 - **Jupyter Notebook** (analysis)
-
----
-
-## Data Collection Scripts
-
-All scraping code is stored in:  
