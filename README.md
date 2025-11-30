@@ -1,5 +1,9 @@
 # Video Game Review Score Analysis  
-### Comparing Metacritic • OpenCritic • IGN
+
+DSA210 – Introduction to Data Science
+Fall 2025 Term Project
+
+---
 
 This project collects and analyzes video game review scores from **Metacritic**, **OpenCritic**, and **IGN** to explore how review patterns differ across platforms and over time.  
 By combining multiple datasets, the project provides a broader and more accurate understanding of how games are rated by critics and players.
