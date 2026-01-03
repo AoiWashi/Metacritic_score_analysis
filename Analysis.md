@@ -39,18 +39,24 @@ This section summarizes the results of the statistical tests conducted on the co
 Our density plots (KDE) show that Critic scores follow a **Normal Distribution** (bell curve), while User scores are **Skewed** and show more "noise" at the lower end of the spectrum.
 ![Image](Figure_1.png)
 
-### **Controversy (The Gap)**
-Using `top_discrepancies_all_time` function, identified the most "divisive" games. These are titles where the absolute difference between critics and users was highest, often highlighting "review bombing" incidents or niche cult classics.
-*output*
-============================================================
-TOP 5 MOST CONTROVERSIAL GAMES OF ALL TIME
-============================================================
-                                             game  critic_score  user_score  score_diff
-Tom Clancy's The Division 2_ Warlords of New York          79.0         9.0        70.0
-                                        Diablo IV          86.0        20.0        66.0
-                                      Overwatch 2          79.0        14.0        65.0
-         The Sims 4_ Star Wars - Journey to Batuu          70.0        11.0        59.0
-                                          FIFA 21          74.0        15.0        59.0
+## 🏆 The "Controversy Gap": Top 5 Most Disputed Titles
+
+The following table identifies games with the largest absolute discrepancy between professional critics and the general public. These titles represent significant "Review Bombing" incidents or major disconnects between technical quality and player satisfaction.
+
+| Game Title | Critic Score | User Score | Controversy Gap |
+| :--- | :---: | :---: | :---: |
+| **Tom Clancy's The Division 2: Warlords of New York** | 79.0 | 9.0 | **70.0** |
+| **Diablo IV** | 86.0 | 20.0 | **66.0** |
+| **Overwatch 2** | 79.0 | 14.0 | **65.0** |
+| **The Sims 4: Star Wars - Journey to Batuu** | 70.0 | 11.0 | **59.0** |
+| **FIFA 21** | 74.0 | 15.0 | **59.0** |
+
+---
+
+### 🔍 Analysis of Outliers
+1. **The "Live Service" Effect:** Almost all games in the Top 5 are "Live Service" titles or expansions. The high gap is often caused by post-launch monetization, server issues, or balance changes that critics (who review the launch version) don't weight as heavily as daily players.
+2. **Extreme Disparity:** A gap of **70.0 points** (as seen in *The Division 2*) is statistically extreme. In these cases, the `user_score` is rarely a reflection of the game's art or mechanics, but rather a form of "protest voting."
+3. **Hypothesis Link:** This list provides qualitative proof for **Hypothesis 4**. The fact that users gave a 9.0/100 while critics gave a 79/100 demonstrates the high variance and polarization found in player datasets.
                                           
 ### **Annual Controversy**
 Using `top_discrepancies_per_year` function, identified the most "divisive" games by year.
