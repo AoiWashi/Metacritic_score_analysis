@@ -37,7 +37,7 @@ This section summarizes the results of the statistical tests conducted on the co
 
 ### **Distribution of Scores**
 Our density plots (KDE) show that Critic scores follow a **Normal Distribution** (bell curve), while User scores are **Skewed** and show more "noise" at the lower end of the spectrum.
-
+![Image](Figure_1.png)
 
 ### **Annual Controversy (The Gap)**
 Using our `top_discrepancies_per_year` function, we identified the most "divisive" games. These are titles where the absolute difference between critics and users was highest, often highlighting "review bombing" incidents or niche cult classics.
