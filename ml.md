@@ -1,4 +1,4 @@
-# 🤖 7. Machine Learning Extension: Sentiment Clustering
+# 7. Machine Learning Extension: Sentiment Clustering
 
 ### Objective
 To move beyond basic statistical summaries, I implemented an **Unsupervised Machine Learning** model using **K-Means Clustering**. The goal is to let the algorithm mathematically identify natural groups of games based on the relationship between `critic_score` and `user_score`.
@@ -93,7 +93,7 @@ plt.legend(title='Sentiment Cluster')
 plt.grid(True, linestyle='--', alpha=0.5)
 plt.show()
 ```
-### 📝 Machine Learning Result: Cluster Characterization
+### Machine Learning Result: Cluster Characterization
 
 After running the K-Means algorithm, the dataset was partitioned into four distinct groups. By analyzing the average scores within each cluster, we can interpret the "Sentiment Profiles" of the games:
 
@@ -106,5 +106,5 @@ After running the K-Means algorithm, the dataset was partitioned into four disti
 
 
 
-### 💡 Key Insight
+### Key Insight
 The machine learning model confirms that **The Controversy Zone** is a statistically unique group. These games don't just have "lower" scores; they represent a specific failure of alignment between professional standards and consumer expectations. This validates my **Hypothesis 2** by isolating the "Critic-User Gap" as a mathematically distinct phenomenon.
