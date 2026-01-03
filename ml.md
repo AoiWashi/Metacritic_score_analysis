@@ -8,8 +8,6 @@ To move beyond basic statistical summaries, I implemented an **Unsupervised Mach
 2. **Feature Scaling:** Since K-Means relies on Euclidean distance, I apply `StandardScaler` to ensure that both scoring axes are treated with equal weight.
 3. **Hyperparameters:** I set $K=4$ clusters to represent the four quadrants of reception: Unanimous Success, The Controversy Zone, Hidden Gems, and General Flops.
 
----
-
 ### Implementation Code
 ```python
 from sklearn.cluster import KMeans
