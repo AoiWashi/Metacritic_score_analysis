@@ -1,0 +1,229 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "title_cell",
+   "metadata": {},
+   "source": [
+    "# Video Game Review Analysis: Critics vs. Users\n",
+    "### A Statistical Study of Metacritic, IGN, and OpenCritic Trends\n",
+    "\n",
+    "This notebook explores whether professional game critics and general players share the same perspective on game quality. We look for \"review inflation\" over time and identify games with the largest sentiment gaps."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "68ec41b5",
+   "metadata": {},
+   "source": [
+    "## 1. Data Loading\n",
+    "The loading of the dataset and initial setup."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "loading_code",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "from scipy.stats import ttest_rel, levene, pearsonr\n",
+    "import matplotlib.pyplot as plt\n",
+    "import seaborn as sns\n",
+    "\n",
+    "# Setting visualization style\n",
+    "sns.set_theme(style=\"whitegrid\")\n",
+    "\n",
+    "try:\n",
+    "    ign = pd.read_csv('Databases/IGN_data.csv')\n",
+    "    meta = pd.read_csv('metacritic_pc_games.csv')\n",
+    "    oc = pd.read_csv('Opencritic_dataset.csv')\n",
+    "except FileNotFoundError:\n",
+    "    ign = pd.read_csv('IGN_data.csv')\n",
+    "    meta = pd.read_csv('metacritic_pc_games.csv')\n",
+    "    oc = pd.read_csv('Opencritic_dataset.csv')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cleaning_md",
+   "metadata": {},
+   "source": [
+    "## 2. Preprocessing & Normalization\n",
+    "We standardize the column names and scale all scores to a **0-100** range to ensure fair comparisons between sources like IGN (0-10) and Metacritic (0-100)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "cleaning_code",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for df in [ign, meta, oc]:\n",
+    "    df.columns = df.columns.str.strip()\n",
+    "\n",
+    "# Standardizing Column Names\n",
+    "meta.rename(columns={'Game Title':'game', 'Overall Metascore':'critic_score', \n",
+    "                     'Overall User Rating':'user_score', 'Game Release Date':'date'}, inplace=True)\n",
+    "oc.rename(columns={'Title':'game', 'Score':'critic_score_oc', 'Release Date':'date_oc'}, inplace=True)\n",
+    "ign.rename(columns={'game':'game', 'score':'critic_score_ign', 'released_date':'date_ign'}, inplace=True)\n",
+    "\n",
+    "# Date Conversion\n",
+    "meta['date'] = pd.to_datetime(meta['date'], errors='coerce')\n",
+    "oc['date_oc'] = pd.to_datetime(oc['date_oc'], errors='coerce')\n",
+    "ign['date_ign'] = pd.to_datetime(ign['date_ign'], errors='coerce')\n",
+    "\n",
+    "# Merging\n",
+    "merged = meta.merge(oc, on='game', how='outer').merge(ign, on='game', how='outer')\n",
+    "\n",
+    "# Scaling 0-10 sources to 0-100\n",
+    "for col in ['critic_score', 'user_score', 'critic_score_oc', 'critic_score_ign']:\n",
+    "    merged[col] = pd.to_numeric(merged[col], errors='coerce')\n",
+    "\n",
+    "merged['user_score'] = merged['user_score'] * 10\n",
+    "merged['critic_score_ign'] = merged['critic_score_ign'] * 10\n",
+    "\n",
+    "# Year consolidation\n",
+    "merged['year'] = merged['date'].dt.year.fillna(merged['date_oc'].dt.year).fillna(merged['date_ign'].dt.year)\n",
+    "merged_clean = merged.dropna(subset=['year']).copy()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "stats_md",
+   "metadata": {},
+   "source": [
+    "## 3. Hypothesis Testing\n",
+    "We apply statistical tests to validate our observations:\n",
+    "* **Pearson Correlation**: To see if scores are rising/falling over the years.\n",
+    "* **Paired T-Test**: To determine if the average difference between Critics and Users is statistically significant.\n",
+    "* **Levene's Test**: To compare the variance (spread) of scores."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "stats_code",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "test_results = []\n",
+    "\n",
+    "# H1: Metacritic Trend\n",
+    "df_h1 = merged_clean.dropna(subset=['critic_score', 'year'])\n",
+    "corr_meta, p_meta = pearsonr(df_h1['year'], df_h1['critic_score'])\n",
+    "test_results.append({'Hypothesis': 'H1: Critics vs Year', 'Stat': corr_meta, 'P-Value': p_meta})\n",
+    "\n",
+    "# H2: Critic vs User Mean (Paired)\n",
+    "df_h2 = merged_clean.dropna(subset=['critic_score', 'user_score'])\n",
+    "t_stat, p_val_h2 = ttest_rel(df_h2['critic_score'], df_h2['user_score'])\n",
+    "test_results.append({'Hypothesis': 'H2: Critic vs User Mean', 'Stat': t_stat, 'P-Value': p_val_h2})\n",
+    "\n",
+    "# H3: IGN Trend\n",
+    "df_h3 = merged_clean.dropna(subset=['critic_score_ign', 'year'])\n",
+    "corr_ign, p_ign = pearsonr(df_h3['year'], df_h3['critic_score_ign'])\n",
+    "test_results.append({'Hypothesis': 'H3: IGN vs Year', 'Stat': corr_ign, 'P-Value': p_ign})\n",
+    "\n",
+    "# H4: Variance Comparison\n",
+    "stat_var, p_val_var = levene(df_h2['user_score'], df_h2['critic_score'])\n",
+    "test_results.append({'Hypothesis': 'H4: Variance (User vs Critic)', 'Stat': stat_var, 'P-Value': p_val_var})\n",
+    "\n",
+    "summary_df = pd.DataFrame(test_results)\n",
+    "summary_df['Significant?'] = summary_df['P-Value'] < 0.05\n",
+    "summary_df"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "viz_md",
+   "metadata": {},
+   "source": [
+    "## 4. Visual Analysis\n",
+    "Visualizing the distributions and trends discussed above."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "viz_code",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig, axes = plt.subplots(2, 2, figsize=(16, 12))\n",
+    "\n",
+    "# Trend Over Time\n",
+    "yearly_trends = merged_clean.groupby('year')[['critic_score', 'critic_score_ign']].mean()\n",
+    "sns.lineplot(data=yearly_trends, ax=axes[0,0], palette=\"magma\", linewidth=2.5)\n",
+    "axes[0,0].set_title('Average Review Scores Over Time (0-100 Scale)')\n",
+    "\n",
+    "# Distributions\n",
+    "sns.kdeplot(merged_clean['critic_score'], label='Critics (Meta)', fill=True, ax=axes[0,1])\n",
+    "sns.kdeplot(merged_clean['user_score'], label='Users (Meta)', fill=True, ax=axes[0,1])\n",
+    "axes[0,1].set_title('Density of Review Scores')\n",
+    "axes[0,1].legend()\n",
+    "\n",
+    "# Boxplot for Spread\n",
+    "df_melted = df_h2.melt(id_vars=['game'], value_vars=['critic_score', 'user_score'], \n",
+    "                        var_name='Type', value_name='Score')\n",
+    "sns.boxplot(x='Type', y='Score', data=df_melted, ax=axes[1,1], palette=\"Set2\")\n",
+    "axes[1,1].set_title('Spread of Scores: Critics vs. Users')\n",
+    "\n",
+    "plt.tight_layout()\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "controversy_md",
+   "metadata": {},
+   "source": [
+    "## 5. Identifying Controversial Titles\n",
+    "We define controversy as the absolute difference between Critic scores and User scores."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "controversy_code",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def top_discrepancies_all_time(df, n=5):\n",
+    "    paired = df.dropna(subset=['critic_score', 'user_score', 'game']).groupby('game', as_index=False).agg({\n",
+    "        'critic_score': 'mean', \n",
+    "        'user_score': 'mean'\n",
+    "    })\n",
+    "    paired['score_diff'] = paired['critic_score'] - paired['user_score']\n",
+    "    paired['abs_diff'] = paired['score_diff'].abs()\n",
+    "    return paired.sort_values('abs_diff', ascending=False).head(n)\n",
+    "\n",
+    "print(\"TOP 5 MOST CONTROVERSIAL GAMES OF ALL TIME\")\n",
+    "top_discrepancies_all_time(merged_clean)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
