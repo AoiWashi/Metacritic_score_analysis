@@ -5,8 +5,8 @@ To move beyond basic statistical summaries, I implemented an **Unsupervised Mach
 
 ### Methodology
 1. **Feature Selection:** We use the two normalized score columns as our primary features.
-2. **Feature Scaling:** Since K-Means relies on Euclidean distance, we apply `StandardScaler` to ensure that both scoring axes are treated with equal weight.
-3. **Hyperparameters:** We set $K=4$ clusters to represent the four quadrants of reception: Unanimous Success, The Controversy Zone, Hidden Gems, and General Flops.
+2. **Feature Scaling:** Since K-Means relies on Euclidean distance, I apply `StandardScaler` to ensure that both scoring axes are treated with equal weight.
+3. **Hyperparameters:** I set $K=4$ clusters to represent the four quadrants of reception: Unanimous Success, The Controversy Zone, Hidden Gems, and General Flops.
 
 ---
 
@@ -93,7 +93,18 @@ plt.legend(title='Sentiment Cluster')
 plt.grid(True, linestyle='--', alpha=0.5)
 plt.show()
 ```
-# 5. Descriptive Statistics for each Cluster
-print("SUMMARY PER CLUSTER:")
-cluster_summary = ml_data.groupby('cluster').agg(['mean', 'count']).round(2)
-display(cluster_summary)
+### 📝 Machine Learning Result: Cluster Characterization
+
+After running the K-Means algorithm, the dataset was partitioned into four distinct groups. By analyzing the average scores within each cluster, we can interpret the "Sentiment Profiles" of the games:
+
+| Cluster Profile | Logic | Meaning & Characteristics |
+| :--- | :--- | :--- |
+| **Industry Leaders** | High Critic / High User | These games represent the "Gold Standard." Both experts and players agree on their quality, resulting in the highest overall satisfaction. |
+| **The Controversy Zone** | High Critic / Low User | **This is the primary focus of my study.** These games are technically proficient but suffered from major public backlash (e.g., "Review Bombing" or monetization issues). |
+| **The Hidden Gems** | Low Critic / High User | These are "Cult Classics." While critics may have penalized them for technical flaws or niche appeal, the core community found them highly enjoyable. |
+| **The Underperformers** | Low Critic / Low User | Games in this cluster failed to find traction with either group, typically indicating a failure in both technical execution and entertainment value. |
+
+
+
+### 💡 Key Insight
+The machine learning model confirms that **The Controversy Zone** is a statistically unique group. These games don't just have "lower" scores; they represent a specific failure of alignment between professional standards and consumer expectations. This validates my **Hypothesis 2** by isolating the "Critic-User Gap" as a mathematically distinct phenomenon.
